@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.fit2081.labweek6'
+    namespace 'com.fit2081.labweek7'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.fit2081.labweek6"
+        applicationId "com.fit2081.labweek7"
         minSdk 30
         targetSdk 33
         versionCode 1

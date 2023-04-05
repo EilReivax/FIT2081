@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.fit2081.labweek6", appContext.getPackageName());
+        assertEquals("com.fit2081.labweek7", appContext.getPackageName());
     }
 }
