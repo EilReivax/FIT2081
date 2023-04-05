@@ -1,0 +1,22 @@
+R_DEF: Internal format may change without notice
+local
+color colorAccent
+color colorPrimary
+color colorPrimaryDark
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+id card_view
+id collapsing_toolbar
+id item_close
+id item_open
+id item_title
+id item_volume
+id recycler_view
+id stock_symbol
+id toolbar
+layout activity_main
+layout card_layout
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+style AppTheme
