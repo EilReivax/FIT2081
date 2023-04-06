@@ -183,8 +183,15 @@ public class MainActivity extends AppCompatActivity {
         String author = String.valueOf(editAuthor.getText());
         String description = String.valueOf(editDescription.getText());
         String price = String.valueOf(editPrice.getText());
+        String titleFirstThree;
 
-        Book book = new Book(id, title, isbn, author, description, price);
+        if (title.length() > 3) {
+             titleFirstThree = title.substring(0,3);
+        } else {
+            titleFirstThree = title;
+        }
+
+        Book book = new Book(id, title, isbn, author, description, price, titleFirstThree);
         books.add(book);
         adapter.notifyDataSetChanged();
 

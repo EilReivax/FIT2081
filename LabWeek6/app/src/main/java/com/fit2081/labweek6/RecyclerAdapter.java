@@ -41,6 +41,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.viewAuthor.setText(books.get(position).getAuthor());
         holder.viewDescription.setText(books.get(position).getDescription());
         holder.viewPrice.setText(books.get(position).getPrice());
+        holder.viewTitleFirstThree.setText(books.get(position).getTitleFirstThree());
     }
 
     @Override
@@ -56,6 +57,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public TextView viewAuthor;
         public TextView viewDescription;
         public TextView viewPrice;
+        public TextView viewTitleFirstThree;
 
         public ViewHolder(@NonNull View view) {
             super(view);
@@ -65,6 +67,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             viewAuthor = view.findViewById(R.id.viewAuthor);
             viewDescription = view.findViewById(R.id.viewDescription);
             viewPrice = view.findViewById(R.id.viewPrice);
+            viewTitleFirstThree = view.findViewById(R.id.viewTitleFirstThree);
         }
     }
 }
