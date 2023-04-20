@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         // Week 6
         recyclerView = findViewById(R.id.recyclerView);
 
+        adapter = new BookAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

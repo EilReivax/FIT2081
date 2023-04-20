@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
 public class Book {
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "id", defaultValue = "0")
     private int id;
 
     @ColumnInfo(name = "title")
