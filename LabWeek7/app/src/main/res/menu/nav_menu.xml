@@ -9,4 +9,7 @@
     <item
         android:id="@+id/itemRemoveAllBooks"
         android:title="Remove All Books"/>
+    <item
+        android:id="@+id/itemListAll"
+        android:title="List All"/>
 </menu>

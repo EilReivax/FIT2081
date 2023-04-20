@@ -32,9 +32,8 @@ import java.util.StringTokenizer;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText editId, editTitle, editIsbn, editAuthor, editDescription, editPrice;
+    EditText editTitle, editIsbn, editAuthor, editDescription, editPrice;
     public static final String TAG = "WEEK_3_TAG";
-    public static final String ID_KEY = "ID_KEY";
     public static final String TITLE_KEY = "TITLE_KEY";
     public static final String ISBN_KEY = "ISBN_KEY";
     public static final String AUTHOR_KEY = "AUTHOR_KEY";
@@ -54,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate");
         setContentView(R.layout.drawer_layout);
 
-        editId = findViewById(R.id.inputId);
         editTitle = findViewById(R.id.inputTitle);
         editIsbn = findViewById(R.id.inputIsbn);
         editAuthor = findViewById(R.id.inputAuthor);
@@ -109,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle inState) {
         Log.d(TAG, "onRestoreInstanceState");
         super.onRestoreInstanceState(inState);
-        editId.setText(inState.getString(ID_KEY));
         editTitle.setText(inState.getString(TITLE_KEY));
         editIsbn.setText(inState.getString(ISBN_KEY));
         editAuthor.setText(inState.getString(AUTHOR_KEY));
@@ -153,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
                 mBookViewModel.deleteAll();
                 adapter.notifyDataSetChanged();
             }
+            else if (id == R.id.itemListAll) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new FragmentBook()).addToBackStack("f1").commit();
+                adapter.notifyDataSetChanged();
+            }
 
             drawerLayout.closeDrawers();
             return true;
@@ -165,14 +166,12 @@ public class MainActivity extends AppCompatActivity {
             String message = intent.getStringExtra(SMSReceiver.SMS_KEY);
             StringTokenizer stringTokenizer = new StringTokenizer(message, "|");
 
-            String id = stringTokenizer.nextToken();
             String title = stringTokenizer.nextToken();
             String isbn = stringTokenizer.nextToken();
             String author = stringTokenizer.nextToken();
             String description = stringTokenizer.nextToken();
             String price = stringTokenizer.nextToken();
 
-            editId.setText(id);
             editTitle.setText(title);
             editIsbn.setText(isbn);
             editAuthor.setText(author);
@@ -198,7 +197,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clear() {
-        editId.setText("");
         editTitle.setText("");
         editIsbn.setText("");
         editAuthor.setText("");
@@ -209,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
     public void save() {
         SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(ID_KEY, String.valueOf(editId.getText()));
         editor.putString(TITLE_KEY, String.valueOf(editTitle.getText()));
         editor.putString(ISBN_KEY, String.valueOf(editIsbn.getText()));
         editor.putString(AUTHOR_KEY, String.valueOf(editAuthor.getText()));
@@ -220,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void load() {
         SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
-        editId.setText(sharedPreferences.getString(ID_KEY, ""));
         editTitle.setText(sharedPreferences.getString(TITLE_KEY, ""));
         editIsbn.setText(sharedPreferences.getString(ISBN_KEY, ""));
         editAuthor.setText(sharedPreferences.getString(AUTHOR_KEY, ""));
