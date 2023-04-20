@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,10 +23,11 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.fit2081.labweek7.provider.Book;
+import com.fit2081.labweek7.provider.BookViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,9 +45,8 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     FloatingActionButton fab;
     RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
-    RecyclerAdapter adapter;
-    ArrayList<Book> books = new ArrayList<>();
+    BookAdapter adapter;
+    private BookViewModel mBookViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +83,15 @@ public class MainActivity extends AppCompatActivity {
         // Week 6
         recyclerView = findViewById(R.id.recyclerView);
 
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new RecyclerAdapter();
-        adapter.setBooks(books);
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Week 7
+        mBookViewModel = new ViewModelProvider(this).get(BookViewModel.class);
+        mBookViewModel.getAllBook().observe(this, newData -> {
+           adapter.setBook(newData);
+           adapter.notifyDataSetChanged();
+        });
 
         load();
     }
@@ -141,11 +145,11 @@ public class MainActivity extends AppCompatActivity {
                 add();
             }
             else if (id == R.id.itemRemoveLastBook) {
-                books.remove(books.size() - 1);
+                mBookViewModel.deleteLast();
                 adapter.notifyDataSetChanged();
             }
             else if (id == R.id.itemRemoveAllBooks) {
-                books.clear();
+                mBookViewModel.deleteAll();
                 adapter.notifyDataSetChanged();
             }
 
@@ -177,15 +181,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void add() {
-        String id = String.valueOf(editId.getText());
         String title = String.valueOf(editTitle.getText());
         String isbn = String.valueOf(editIsbn.getText());
         String author = String.valueOf(editAuthor.getText());
         String description = String.valueOf(editDescription.getText());
         String price = String.valueOf(editPrice.getText());
 
-        Book book = new Book(id, title, isbn, author, description, price);
-        books.add(book);
+        Book book = new Book(title, isbn, author, description, price);
+        mBookViewModel.insert(book);
         adapter.notifyDataSetChanged();
 
         Toast.makeText(this, title + " | " + price, Toast.LENGTH_SHORT).show();
