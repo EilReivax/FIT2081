@@ -3,6 +3,7 @@ package com.fit2081.labweek7;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,17 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.fit2081.labweek7.provider.BookViewModel;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentBook#newInstance} factory method to
+ * Use the {@link BookFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentBook extends Fragment {
+public class BookFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     RecyclerView recyclerView;
     BookAdapter adapter;
+    private BookViewModel mBookViewModel;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -28,7 +32,7 @@ public class FragmentBook extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentBook() {
+    public BookFragment() {
         // Required empty public constructor
     }
 
@@ -38,11 +42,11 @@ public class FragmentBook extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentBook.
+     * @return A new instance of fragment BookFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentBook newInstance(String param1, String param2) {
-        FragmentBook fragment = new FragmentBook();
+    public static BookFragment newInstance(String param1, String param2) {
+        BookFragment fragment = new BookFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -53,18 +57,24 @@ public class FragmentBook extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        adapter = new BookAdapter();
+
+        mBookViewModel = new ViewModelProvider(this).get(BookViewModel.class);
+        mBookViewModel.getAllBook().observe(getViewLifecycleOwner(), newData -> {
+            adapter.setBook(newData);
+            adapter.notifyDataSetChanged();
+        });
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_book, container, false);
+        View view = inflater.inflate(R.layout.recycler_view, container, false);
+        // Week 6
         recyclerView = view.findViewById(R.id.recyclerView);
-        adapter = new BookAdapter();
+
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
