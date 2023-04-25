@@ -78,19 +78,9 @@ public class MainActivity extends AppCompatActivity {
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> add());
 
-        // Week 6
-        recyclerView = findViewById(R.id.recyclerView);
 
-        adapter = new BookAdapter();
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Week 7
-        mBookViewModel = new ViewModelProvider(this).get(BookViewModel.class);
-        mBookViewModel.getAllBook().observe(this, newData -> {
-           adapter.setBook(newData);
-           adapter.notifyDataSetChanged();
-        });
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,new BookFragment()).addToBackStack("f1").commit();
 
         load();
     }
@@ -151,8 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
             else if (id == R.id.itemListAll) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new FragmentBook()).addToBackStack("f1").commit();
-                adapter.notifyDataSetChanged();
+
             }
 
             drawerLayout.closeDrawers();
