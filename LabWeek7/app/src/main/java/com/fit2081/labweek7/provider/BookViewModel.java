@@ -9,28 +9,28 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 public class BookViewModel extends AndroidViewModel  {
-    private BookRepository mRepository;
-    private LiveData<List<Book>> mAllBook;
+    private BookRepository bookRepository;
+    private LiveData<List<Book>> books;
 
     public BookViewModel(@NonNull Application application) {
         super(application);
-        mRepository = new BookRepository(application);
-        mAllBook = mRepository.getAllBook();
+        bookRepository = new BookRepository(application);
+        books = bookRepository.getAllBook();
     }
 
     public LiveData<List<Book>> getAllBook() {
-        return mAllBook;
+        return books;
     }
 
     public void insert(Book book) {
-        mRepository.insert(book);
+        bookRepository.insert(book);
     }
 
     public void deleteAll() {
-        mRepository.deleteAll();
+        bookRepository.deleteAll();
     }
 
     public void deleteLast() {
-        mRepository.deleteLast();
+        bookRepository.deleteLast();
     }
 }

@@ -24,7 +24,6 @@ public class BookFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     RecyclerView recyclerView;
     BookAdapter adapter;
-    private BookViewModel mBookViewModel;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -57,26 +56,22 @@ public class BookFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         adapter = new BookAdapter();
-
-        mBookViewModel = new ViewModelProvider(this).get(BookViewModel.class);
-        mBookViewModel.getAllBook().observe(getViewLifecycleOwner(), newData -> {
+        BookViewModel bookViewModel = new ViewModelProvider(this).get(BookViewModel.class);
+        bookViewModel.getAllBook().observe(this, newData -> {
             adapter.setBook(newData);
             adapter.notifyDataSetChanged();
         });
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recycler_view, container, false);
+
         // Week 6
         recyclerView = view.findViewById(R.id.recyclerView);
-
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return view;
     }

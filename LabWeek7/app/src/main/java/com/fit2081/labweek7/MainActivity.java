@@ -7,8 +7,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -43,9 +41,8 @@ public class MainActivity extends AppCompatActivity {
     NavigationView navigationView;
     Toolbar toolbar;
     FloatingActionButton fab;
-    RecyclerView recyclerView;
     BookAdapter adapter;
-    private BookViewModel mBookViewModel;
+    private BookViewModel bookViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +75,11 @@ public class MainActivity extends AppCompatActivity {
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> add());
 
+        // Week 7
+        adapter = new BookAdapter();
+        bookViewModel = new ViewModelProvider(this).get(BookViewModel.class);
 
-
-        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout,new BookFragment()).addToBackStack("f1").commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, new BookFragment()).commit();
 
         load();
     }
@@ -133,15 +132,16 @@ public class MainActivity extends AppCompatActivity {
                 add();
             }
             else if (id == R.id.itemRemoveLastBook) {
-                mBookViewModel.deleteLast();
+                bookViewModel.deleteLast();
                 adapter.notifyDataSetChanged();
             }
             else if (id == R.id.itemRemoveAllBooks) {
-                mBookViewModel.deleteAll();
+                bookViewModel.deleteAll();
                 adapter.notifyDataSetChanged();
             }
             else if (id == R.id.itemListAll) {
-
+                Intent intent = new Intent(MainActivity.this, ListBook.class);
+                startActivity(intent);
             }
 
             drawerLayout.closeDrawers();
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         String price = String.valueOf(editPrice.getText());
 
         Book book = new Book(title, isbn, author, description, price);
-        mBookViewModel.insert(book);
+        bookViewModel.insert(book);
         adapter.notifyDataSetChanged();
 
         Toast.makeText(this, title + " | " + price, Toast.LENGTH_SHORT).show();

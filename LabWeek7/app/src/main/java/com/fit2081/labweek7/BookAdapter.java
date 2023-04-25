@@ -28,11 +28,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
         holder.viewId.setText(String.valueOf(mBook.get(position).getId()));
-        holder.viewTitle.setText(mBook.get(position).getTitle());
-        holder.viewIsbn.setText(mBook.get(position).getIsbn());
-        holder.viewAuthor.setText(mBook.get(position).getAuthor());
-        holder.viewDescription.setText(mBook.get(position).getDescription());
-        holder.viewPrice.setText(mBook.get(position).getPrice());
+        holder.viewTitle.setText(String.valueOf(mBook.get(position).getTitle()));
+        holder.viewIsbn.setText(String.valueOf(mBook.get(position).getIsbn()));
+        holder.viewAuthor.setText(String.valueOf(mBook.get(position).getAuthor()));
+        holder.viewDescription.setText(String.valueOf(mBook.get(position).getDescription()));
+        holder.viewPrice.setText(String.valueOf(mBook.get(position).getPrice()));
     }
 
     @Override

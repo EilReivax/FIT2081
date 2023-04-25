@@ -7,28 +7,28 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 public class BookRepository {
-    private BookDao mBookDao;
-    private LiveData<List<Book>> mAllBook;
+    private BookDao bookDao;
+    private LiveData<List<Book>> books;
 
     BookRepository(Application application) {
         BookDatabase db = BookDatabase.getDatabase(application);
-        mBookDao = db.bookDao();
-        mAllBook = mBookDao.getAllBook();
+        bookDao = db.bookDao();
+        books = bookDao.getAllBook();
     }
 
     LiveData<List<Book>> getAllBook() {
-        return mAllBook;
+        return books;
     }
 
     void insert(Book book) {
-        BookDatabase.databaseWriteExecutor.execute(() -> mBookDao.addBook(book));
+        BookDatabase.databaseWriteExecutor.execute(() -> bookDao.addBook(book));
     }
 
     void deleteAll() {
-        BookDatabase.databaseWriteExecutor.execute(() -> mBookDao.deleteAll());
+        BookDatabase.databaseWriteExecutor.execute(() -> bookDao.deleteAll());
     }
 
     void deleteLast() {
-        BookDatabase.databaseWriteExecutor.execute(() -> mBookDao.deleteLast());
+        BookDatabase.databaseWriteExecutor.execute(() -> bookDao.deleteLast());
     }
 }
