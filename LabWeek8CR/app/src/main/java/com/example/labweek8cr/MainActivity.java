@@ -6,10 +6,10 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    public static final Uri CONTENT_URI = Uri.parse("content://fit2081.app.michael");
     TextView viewCount;
 
     @Override
@@ -17,12 +17,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // addBook();
-        countBooks();
-    }
-    public void countBooks() {
         viewCount = findViewById(R.id.viewCount);
-        Cursor cursor = getContentResolver().query(CONTENT_URI, null, null, null, null);
+    }
+    public void countBooks(View view) {
+        Uri uri = Uri.parse("content://fit2081.app.michael");
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+
         if (cursor != null) {
             viewCount.setText(String.valueOf(cursor.getCount()));
         }
@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addBook() {
+        Uri uri = Uri.parse("content://fit2081.app.michael");
         ContentValues contentValues = new ContentValues();
         contentValues.put("title", "Title");
         contentValues.put("isbn", "ISBN");
@@ -39,6 +40,6 @@ public class MainActivity extends AppCompatActivity {
         contentValues.put("description", "Description");
         contentValues.put("price", "100");
 
-        getContentResolver().insert(CONTENT_URI, contentValues);
+        getContentResolver().insert(uri, contentValues);
     }
 }
