@@ -1,6 +1,7 @@
 package com.fit2081.labweek8;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -27,7 +28,13 @@ import com.fit2081.labweek8.provider.Book;
 import com.fit2081.labweek8.provider.BookViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab;
     BookAdapter adapter;
     private BookViewModel bookViewModel;
+    DatabaseReference cloudDatabase;
+    DatabaseReference bookTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +91,37 @@ public class MainActivity extends AppCompatActivity {
         bookViewModel = new ViewModelProvider(this).get(BookViewModel.class);
 
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, new BookFragment()).commit();
+
+        // Week 8
+        cloudDatabase = FirebaseDatabase.getInstance().getReference();
+        bookTable = cloudDatabase.child("books");
+
+        bookTable.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         load();
     }
@@ -143,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
             else if (id == R.id.itemRemoveAllBooks) {
                 bookViewModel.deleteAll();
                 adapter.notifyDataSetChanged();
+                bookTable.removeValue();
             }
             else if (id == R.id.itemListAll) {
                 Intent intent = new Intent(MainActivity.this, ListBook.class);
@@ -185,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
         Book book = new Book(title, isbn, author, description, price);
         bookViewModel.insert(book);
         adapter.notifyDataSetChanged();
+        bookTable.push().setValue(book);
 
         Toast.makeText(this, title + " | " + price, Toast.LENGTH_SHORT).show();
 
