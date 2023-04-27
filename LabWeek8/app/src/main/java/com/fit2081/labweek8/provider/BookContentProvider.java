@@ -15,6 +15,7 @@ public class BookContentProvider extends ContentProvider {
     public static final String COLUMN_ID = "id";
     public static final int MULTIPLE_BOOKS = 1;
     public static final int SINGLE_BOOKS = 2;
+    public static final UriMatcher uriMatcher = createUriMatcher();
     BookDatabase bookDatabase;
 
 
@@ -33,38 +34,17 @@ public class BookContentProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        int deleteCount;
-        UriMatcher uriMatcher = createUriMatcher();
-
-        switch (uriMatcher.match(uri)) {
-            case MULTIPLE_BOOKS:
-                deleteCount = bookDatabase
+        int deleteCount = bookDatabase
                       .getOpenHelper()
                       .getWritableDatabase()
                       .delete(TABLE_NAME, selection, selectionArgs);
-                break;
-            case SINGLE_BOOKS:
-                String id = uri.getLastPathSegment();
-                String selectionId = COLUMN_ID + "=?";
-                String [] selectionArgsId = new String[]{id};
-
-                deleteCount = bookDatabase
-                      .getOpenHelper()
-                      .getWritableDatabase()
-                      .delete(TABLE_NAME, selectionId, selectionArgsId);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown URI " + uri);
-        }
 
         return deleteCount;
     }
 
     @Override
     public String getType(Uri uri) {
-        // TODO: Implement this to handle requests for the MIME type of the data
-        // at the given URI.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return null;
     }
 
     @Override
@@ -93,7 +73,7 @@ public class BookContentProvider extends ContentProvider {
         final Cursor cursor = bookDatabase
                 .getOpenHelper()
                 .getReadableDatabase()
-                .query(query, selectionArgs);
+                .query(query);
 
         return cursor;
     }
