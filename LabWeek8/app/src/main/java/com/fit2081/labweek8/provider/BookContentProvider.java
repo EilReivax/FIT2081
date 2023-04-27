@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 public class BookContentProvider extends ContentProvider {
     public static final Uri CONTENT_URI = Uri.parse("content://fit2081.app.michael");
@@ -14,7 +15,6 @@ public class BookContentProvider extends ContentProvider {
     public static final String COLUMN_ID = "id";
     public static final int MULTIPLE_BOOKS = 1;
     public static final int SINGLE_BOOKS = 2;
-    private static final UriMatcher uriMatcher = createUriMatcher();
     BookDatabase bookDatabase;
 
 
@@ -22,18 +22,19 @@ public class BookContentProvider extends ContentProvider {
     }
 
     private static UriMatcher createUriMatcher() {
-        final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
+        final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = "fit2081.app.michael";
 
-        matcher.addURI(authority, TABLE_NAME, MULTIPLE_BOOKS);
-        matcher.addURI(authority, TABLE_NAME + "/#", SINGLE_BOOKS);
+        uriMatcher.addURI(authority, TABLE_NAME, MULTIPLE_BOOKS);
+        uriMatcher.addURI(authority, TABLE_NAME + "/#", SINGLE_BOOKS);
 
-        return matcher;
+        return uriMatcher;
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         int deleteCount;
+        UriMatcher uriMatcher = createUriMatcher();
 
         switch (uriMatcher.match(uri)) {
             case MULTIPLE_BOOKS:
@@ -44,7 +45,7 @@ public class BookContentProvider extends ContentProvider {
                 break;
             case SINGLE_BOOKS:
                 String id = uri.getLastPathSegment();
-                String selectionId = COLUMN_ID + " = ?";
+                String selectionId = COLUMN_ID + "=?";
                 String [] selectionArgsId = new String[]{id};
 
                 deleteCount = bookDatabase
@@ -88,6 +89,7 @@ public class BookContentProvider extends ContentProvider {
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
         queryBuilder.setTables(TABLE_NAME);
         String query = queryBuilder.buildQuery(projection, selection, null, null, sortOrder, null);
+
         final Cursor cursor = bookDatabase
                 .getOpenHelper()
                 .getReadableDatabase()

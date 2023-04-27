@@ -33,7 +33,7 @@ import java.util.StringTokenizer;
 public class MainActivity extends AppCompatActivity {
 
     EditText editTitle, editIsbn, editAuthor, editDescription, editPrice;
-    public static final String TAG = "WEEK_3_TAG";
+    public static final String TAG = "WEEK_8_TAG";
     public static final String TITLE_KEY = "TITLE_KEY";
     public static final String ISBN_KEY = "ISBN_KEY";
     public static final String AUTHOR_KEY = "AUTHOR_KEY";
@@ -107,12 +107,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d(TAG, "onCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Log.d(TAG, "onOptionsItemSelected");
         int id = item.getItemId();
 
         if (id == R.id.optionClear) {
@@ -128,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
     class MyNavigationListener implements NavigationView.OnNavigationItemSelectedListener {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Log.d(TAG, "onNavigationItemSelected");
             int id = item.getItemId();
 
             if (id == R.id.itemAddBook) {
@@ -154,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
     class MyBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "onReceive");
             String message = intent.getStringExtra(SMSReceiver.SMS_KEY);
             StringTokenizer stringTokenizer = new StringTokenizer(message, "|");
 
