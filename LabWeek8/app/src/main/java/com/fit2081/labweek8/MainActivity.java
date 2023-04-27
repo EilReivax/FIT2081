@@ -14,6 +14,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -82,7 +84,14 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, new BookFragment()).commit();
 
         // Week 8
+        Uri uri = Uri.parse("content://fit2081.app.michael");
+        Cursor cursor = getContentResolver().query(uri, null, null, null);
+        if (cursor != null) {
 
+        }
+        else {
+
+        }
 
         load();
     }

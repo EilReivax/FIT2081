@@ -2,16 +2,18 @@ package com.fit2081.roomcp_b_tasks;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
     TextView tV;
-//    public static final String COLUMN_NAME = "taskName";
-//    public static final String COLUMN_DESCRIPTION = "taskDescription";
+    public static final String COLUMN_NAME = "taskName";
+    public static final String COLUMN_DESCRIPTION = "taskDescription";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +26,11 @@ public class MainActivity extends AppCompatActivity {
             tV.setText(result.getCount() + "");
         else
             tV.setText("Result is null");
-//        ContentValues values= new ContentValues();
-//        values.put(COLUMN_NAME,"New Task Name");
-//        values.put(COLUMN_DESCRIPTION,"New Desc");
-//        Uri uri2= getContentResolver().insert(uri,values);
-//        Toast.makeText(this,uri2.toString(),Toast.LENGTH_LONG).show();
+
+        ContentValues values= new ContentValues();
+        values.put(COLUMN_NAME,"New Task Name");
+        values.put(COLUMN_DESCRIPTION,"New Desc");
+        Uri uri2= getContentResolver().insert(uri,values);
+        Toast.makeText(this,uri2.toString(),Toast.LENGTH_LONG).show();
     }
 }
