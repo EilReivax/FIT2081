@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="fit2081.READ_PERMISSION" android:protectionLevel="normal" />
+    <uses-permission android:name="fit2081.WRITE_PERMISSION" android:protectionLevel="normal" />
+    <queries>
+        <provider android:authorities="fit2081.app.michael" />
+    </queries>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"

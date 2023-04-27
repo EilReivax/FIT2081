@@ -83,16 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, new BookFragment()).commit();
 
-        // Week 8
-        Uri uri = Uri.parse("content://fit2081.app.michael");
-        Cursor cursor = getContentResolver().query(uri, null, null, null);
-        if (cursor != null) {
-
-        }
-        else {
-
-        }
-
         load();
     }
 

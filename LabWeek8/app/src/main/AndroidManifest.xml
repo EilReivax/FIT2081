@@ -24,7 +24,7 @@
             android:writePermission="fit2081.WRITE_PERMISSION"
             android:authorities="fit2081.app.michael"
             android:enabled="true"
-            android:exported="true"></provider>
+            android:exported="true" />
 
         <activity
             android:name=".ListBook"
