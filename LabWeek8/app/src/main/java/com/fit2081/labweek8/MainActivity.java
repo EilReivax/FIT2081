@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         cloudDatabase = FirebaseDatabase.getInstance().getReference();
         bookTable = cloudDatabase.child("books");
 
+        /*
         bookTable.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -122,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        */
 
         load();
     }

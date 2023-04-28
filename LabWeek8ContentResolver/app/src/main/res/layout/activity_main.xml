@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No. of Books: "
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/countBooks"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,8 +21,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/countBooks"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/countBooks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Count All Books"
+        android:onClick="countBooks"
+        app:layout_constraintBottom_toTopOf="@id/countBooksAboveFifty"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView" />
+
+    <Button
+        android:id="@+id/countBooksAboveFifty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Count Books Above Fifty"
+        android:onClick="countBooksAboveFifty"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/countBooks" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
