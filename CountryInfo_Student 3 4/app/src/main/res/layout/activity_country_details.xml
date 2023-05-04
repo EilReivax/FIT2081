@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/country_detail"
@@ -14,7 +13,7 @@
         android:layout_height="25dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="Country Name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -204,7 +203,8 @@
         android:id="@+id/wiki"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="WIKI"
+        android:text="Loading..."
+        android:onClick="viewWiki"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/flag"
         app:layout_constraintEnd_toEndOf="parent"

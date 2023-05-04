@@ -1,23 +1,20 @@
 package edu.monash.fit2081.countryinfo;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.os.Handler;
 import android.os.Looper;
-import android.util.JsonReader;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -27,24 +24,19 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.Locale;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.net.ssl.HttpsURLConnection;
 
 public class CountryDetails extends AppCompatActivity {
-
     private TextView nameTV, capitalTV, codeTV, populationTV, areaTV, currenciesTv, languagesTV;
     private ImageView flagIV;
+    private Button wikiButton;
     private RequestQueue requestQueue;
     ExecutorService executor;
     Handler uiHandler;
-
-
+    Intent intent;
 
     @Override
 
@@ -65,11 +57,12 @@ public class CountryDetails extends AppCompatActivity {
         currenciesTv = findViewById(R.id.currencies);
         languagesTV = findViewById(R.id.languages);
         flagIV = findViewById(R.id.flag);
+        wikiButton = findViewById(R.id.wiki);
 
         requestQueue = Volley.newRequestQueue(this);
 
         executor = Executors.newSingleThreadExecutor();
-        Executor handler = ContextCompat.getMainExecutor(this);
+        // Executor handler = ContextCompat.getMainExecutor(this);
         uiHandler = new Handler(Looper.getMainLooper());
         jsonParse(selectedCountry);
     }
@@ -107,6 +100,7 @@ public class CountryDetails extends AppCompatActivity {
                 areaTV.setText(String.valueOf(area));
                 currenciesTv.setText(currencies);
                 languagesTV.setText(languages);
+                wikiButton.setText(name + " Wiki");
 
                 String flagRequest = "https://flagcdn.com/160x120/" + code2.toLowerCase() + ".png";
                 // String flagRequest = countryObj.getJSONObject("flags").getString("name");
@@ -128,6 +122,8 @@ public class CountryDetails extends AppCompatActivity {
                    }
                 });
 
+                intent = new Intent(this, WebWiki.class);
+                intent.putExtra("country", name);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -135,4 +131,8 @@ public class CountryDetails extends AppCompatActivity {
         requestQueue.add(request);
     }
 
+    public void viewWiki(View view) {
+
+        startActivity(intent);
+    }
 }
