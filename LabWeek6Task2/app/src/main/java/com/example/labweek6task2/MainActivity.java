@@ -57,22 +57,18 @@ public class MainActivity extends AppCompatActivity {
 
         JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             Log.d(TAG, "onResponse");
-            try {
-                String name = response.getString("name");
-                String family = response.getString("family");
+            String name = response.getString("name");
+            String family = response.getString("family");
 
-                JSONObject nutritions = response.getJSONObject("nutritions");
-                String calories = nutritions.getString("calories");
-                String sugar = nutritions.getString("sugar");
-                String carbohydrates = nutritions.getString("carbohydrates");
+            JSONObject nutritions = response.getJSONObject("nutritions");
+            String calories = nutritions.getString("calories");
+            String sugar = nutritions.getString("sugar");
+            String carbohydrates = nutritions.getString("carbohydrates");
 
-                Fruit fruit = new Fruit(name, family, calories, sugar, carbohydrates);
-                fruits.add(fruit);
-                adapter.notifyDataSetChanged();
+            Fruit fruit = new Fruit(name, family, calories, sugar, carbohydrates);
+            fruits.add(fruit);
+            adapter.notifyDataSetChanged();
 
-            } catch (Exception e) {
-                Log.d(TAG, e.getMessage());
-            }
         }, error -> Log.d(TAG, error.getMessage()));
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
