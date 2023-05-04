@@ -10,13 +10,13 @@ import android.webkit.WebViewClient;
 
 public class WebWiki extends AppCompatActivity {
     private WebView wikiWV;
-    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_wiki);
 
         getSupportActionBar().setTitle(R.string.title_activity_wiki);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         wikiWV = findViewById(R.id.wiki);
 
@@ -24,12 +24,5 @@ public class WebWiki extends AppCompatActivity {
         String url = "https://en.wikipedia.org/wiki/" + country;
         wikiWV.setWebViewClient(new WebViewClient());
         wikiWV.loadUrl(url);
-
-        intent = new Intent(this, CountryDetails.class);
-        intent.putExtra("country", country);
-    }
-
-    public void back(View view) {
-        startActivity(intent);
     }
 }

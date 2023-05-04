@@ -69,7 +69,7 @@ public class CountryDetails extends AppCompatActivity {
 
 
     private void jsonParse(String selectCountry) {
-        String url = "https://restcountries.com/v2/name/"+selectCountry;
+        String url = "https://restcountries.com/v2/name/" + selectCountry;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
             try {
                 JSONObject countryObj = response.getJSONObject(0);
@@ -82,14 +82,16 @@ public class CountryDetails extends AppCompatActivity {
                 String currencies = "";
                 JSONArray currenciesArray = countryObj.getJSONArray("currencies");
                 for (int i = 0; i < currenciesArray.length(); i++) {
-                    String currency = currenciesArray.getJSONObject(i).getString("code");
+                    JSONObject currencyObject = currenciesArray.getJSONObject(i);
+                    String currency = currencyObject.getString("code");
                     currencies += currency + ", ";
                 }
 
                 String languages = "";
                 JSONArray languagesArray = countryObj.getJSONArray("languages");
                 for (int i = 0; i < languagesArray.length(); i++) {
-                    String language = languagesArray.getJSONObject(i).getString("name");
+                    JSONObject languageObject = languagesArray.getJSONObject(i);
+                    String language = languageObject.getString("name");
                     languages += language + ", ";
                 }
 
@@ -132,7 +134,6 @@ public class CountryDetails extends AppCompatActivity {
     }
 
     public void viewWiki(View view) {
-
         startActivity(intent);
     }
 }
