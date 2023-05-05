@@ -30,7 +30,7 @@ import java.util.concurrent.Executors;
 import javax.net.ssl.HttpsURLConnection;
 
 public class CountryDetails extends AppCompatActivity {
-    private TextView nameTV, capitalTV, codeTV, populationTV, areaTV, currenciesTv, languagesTV;
+    private TextView nameTV, capitalTV, codeTV, populationTV, areaTV, currenciesTv, languagesTV, timezonesTV;
     private ImageView flagIV;
     private Button wikiButton;
     private RequestQueue requestQueue;
@@ -56,6 +56,7 @@ public class CountryDetails extends AppCompatActivity {
         areaTV = findViewById(R.id.area);
         currenciesTv = findViewById(R.id.currencies);
         languagesTV = findViewById(R.id.languages);
+        timezonesTV = findViewById(R.id.timezones);
         flagIV = findViewById(R.id.flag);
         wikiButton = findViewById(R.id.wiki);
 
@@ -86,6 +87,7 @@ public class CountryDetails extends AppCompatActivity {
                     String currency = currencyObject.getString("code");
                     currencies += currency + ", ";
                 }
+                currencies = currencies.substring(0, currencies.length() - 2);
 
                 String languages = "";
                 JSONArray languagesArray = countryObj.getJSONArray("languages");
@@ -93,6 +95,14 @@ public class CountryDetails extends AppCompatActivity {
                     JSONObject languageObject = languagesArray.getJSONObject(i);
                     String language = languageObject.getString("name");
                     languages += language + ", ";
+                }
+                languages = languages.substring(0, languages.length() - 2);
+
+                String timezones = "";
+                JSONArray timezonesArray = countryObj.getJSONArray("timezones");
+                for (int i = 0; i < timezonesArray.length(); i++) {
+                    String timezone = timezonesArray.getString(i);
+                    timezones += timezone + " | ";
                 }
 
                 nameTV.setText(name);
@@ -102,6 +112,7 @@ public class CountryDetails extends AppCompatActivity {
                 areaTV.setText(String.valueOf(area));
                 currenciesTv.setText(currencies);
                 languagesTV.setText(languages);
+                timezonesTV.setText(timezones);
                 wikiButton.setText(name + " Wiki");
 
                 String flagRequest = "https://flagcdn.com/160x120/" + code2.toLowerCase() + ".png";
