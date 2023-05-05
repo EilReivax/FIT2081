@@ -85,24 +85,37 @@ public class CountryDetails extends AppCompatActivity {
                 for (int i = 0; i < currenciesArray.length(); i++) {
                     JSONObject currencyObject = currenciesArray.getJSONObject(i);
                     String currency = currencyObject.getString("code");
-                    currencies += currency + ", ";
+                    if (i != currenciesArray.length() - 1) {
+                        currencies += currency + ", ";
+                    }
+                    else {
+                        currencies += currency;
+                    }
                 }
-                currencies = currencies.substring(0, currencies.length() - 2);
 
                 String languages = "";
                 JSONArray languagesArray = countryObj.getJSONArray("languages");
                 for (int i = 0; i < languagesArray.length(); i++) {
                     JSONObject languageObject = languagesArray.getJSONObject(i);
                     String language = languageObject.getString("name");
-                    languages += language + ", ";
+                    if (i != languagesArray.length() - 1) {
+                        languages += language + ", ";
+                    }
+                    else {
+                        languages += language;
+                    }
                 }
-                languages = languages.substring(0, languages.length() - 2);
 
                 String timezones = "";
                 JSONArray timezonesArray = countryObj.getJSONArray("timezones");
                 for (int i = 0; i < timezonesArray.length(); i++) {
                     String timezone = timezonesArray.getString(i);
-                    timezones += timezone + " | ";
+                    if (i != timezonesArray.length() - 1) {
+                        timezones += timezone + " | ";
+                    }
+                    else {
+                        timezones += timezone;
+                    }
                 }
 
                 nameTV.setText(name);
