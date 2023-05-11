@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                                 add();
                             }
                             else if (dy > 0 && Math.abs(dy) > Math.abs(dx)) {
-                                // Do nothing
+                                load();
                             }
                             else if (dy < 0 && Math.abs(dy) > Math.abs(dx)) {
                                 clear();
