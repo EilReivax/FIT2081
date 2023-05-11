@@ -1,5 +1,8 @@
 package com.fit2081.labweek8;
 
+import static android.text.Selection.moveLeft;
+import static android.text.Selection.moveRight;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -21,6 +24,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -40,12 +45,14 @@ import java.util.StringTokenizer;
 public class MainActivity extends AppCompatActivity {
 
     EditText editTitle, editIsbn, editAuthor, editDescription, editPrice;
-    public static final String TAG = "WEEK_8_TAG";
+    public static final String TAG = "WEEK_10_TAG";
     public static final String TITLE_KEY = "TITLE_KEY";
     public static final String ISBN_KEY = "ISBN_KEY";
     public static final String AUTHOR_KEY = "AUTHOR_KEY";
     public static final String DESCRIPTION_KEY = "DESCRIPTION_KEY";
     public static final String PRICE_KEY = "PRICE_KEY";
+    public static final int MIN_SWIPE_DISTANCE = 300;
+    private float dx, dy, x1, x2, y1, y2;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
@@ -96,34 +103,43 @@ public class MainActivity extends AppCompatActivity {
         cloudDatabase = FirebaseDatabase.getInstance().getReference();
         bookTable = cloudDatabase.child("books");
 
-        /*
-        bookTable.addChildEventListener(new ChildEventListener() {
+        // Week 10
+        View view = findViewById(R.id.touchLayout);
+        view.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int action = motionEvent.getActionMasked();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        x1 = motionEvent.getRawX();
+                        y1 = motionEvent.getRawY();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        x2 = motionEvent.getRawX();
+                        y2 = motionEvent.getRawY();
+                        dx = x2 - x1;
+                        dy = y2 - y1;
+                        if (Math.abs(dx) > MIN_SWIPE_DISTANCE || Math.abs(dy) > MIN_SWIPE_DISTANCE) {
+                            if (dx > 0 && Math.abs(dx) > Math.abs(dy)) {
+                                int editPriceInt = Integer.parseInt(String.valueOf(editPrice.getText()));
+                                editPriceInt += 1;
+                                editPrice.setText(String.valueOf(editPriceInt));
+                            }
+                            else if (dx < 0 && Math.abs(dx) > Math.abs(dy)) {
+                                add();
+                            }
+                            else if (dy > 0 && Math.abs(dy) > Math.abs(dx)) {
+                                // Do nothing
+                            }
+                            else if (dy < 0 && Math.abs(dy) > Math.abs(dx)) {
+                                clear();
+                            }
+                        }
+                        break;
+                }
+                return true;
             }
         });
-        */
 
         load();
     }
