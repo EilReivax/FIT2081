@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "655293932691",
+    "project_id": "labweek8-c5943",
+    "storage_bucket": "labweek8-c5943.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655293932691:android:8498f586967400fc405966",
+        "android_client_info": {
+          "package_name": "com.fit2081.labweek8"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655293932691-gv92mbrcotlv7jomfjfdhg3bork0886g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAB93RS25iG17MeDWGfiO-3qN_w8mTdVs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655293932691-gv92mbrcotlv7jomfjfdhg3bork0886g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
