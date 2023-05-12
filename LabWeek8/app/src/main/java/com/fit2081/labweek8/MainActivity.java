@@ -117,9 +117,22 @@ public class MainActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         x2 = motionEvent.getRawX();
                         y2 = motionEvent.getRawY();
+
                         dx = x2 - x1;
                         dy = y2 - y1;
-                        if (Math.abs(dx) > MIN_SWIPE_DISTANCE || Math.abs(dy) > MIN_SWIPE_DISTANCE) {
+
+                        if (Math.abs(dx) > MIN_SWIPE_DISTANCE && Math.abs(dy) > MIN_SWIPE_DISTANCE) {
+                            if (dx < 0 && dy < 0) {
+                                int editPriceInt = Integer.parseInt(String.valueOf(editPrice.getText()));
+                                editPriceInt *= 2;
+                                 editPrice.setText(String.valueOf(editPriceInt));
+                            }
+                            else if (dx < 0 && dy > 0) {
+                                String editTitleString = String.valueOf(editTitle.getText());
+                                editTitle.setText(editTitleString.toUpperCase());
+                            }
+                        }
+                        else {
                             if (dx > 0 && Math.abs(dy) < MIN_SWIPE_DISTANCE) {
                                 int editPriceInt = Integer.parseInt(String.valueOf(editPrice.getText()));
                                 editPriceInt += 1;
@@ -133,15 +146,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                             else if (dy < 0 && Math.abs(dx) < MIN_SWIPE_DISTANCE) {
                                 clear();
-                            }
-                            else if (dx < 0 && dy < 0 && Math.abs(dx) > MIN_SWIPE_DISTANCE && Math.abs(dy) > MIN_SWIPE_DISTANCE) {
-                                int editPriceInt = Integer.parseInt(String.valueOf(editPrice.getText()));
-                                editPriceInt *= 2;
-                                 editPrice.setText(String.valueOf(editPriceInt));
-                            }
-                            else if (dx < 0 && dy > 0 && Math.abs(dx) > MIN_SWIPE_DISTANCE && Math.abs(dy) > MIN_SWIPE_DISTANCE) {
-                                String editTitleString = String.valueOf(editTitle.getText());
-                                editTitle.setText(editTitleString.toUpperCase());
                             }
                         }
                         break;
