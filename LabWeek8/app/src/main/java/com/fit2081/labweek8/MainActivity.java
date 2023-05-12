@@ -120,19 +120,28 @@ public class MainActivity extends AppCompatActivity {
                         dx = x2 - x1;
                         dy = y2 - y1;
                         if (Math.abs(dx) > MIN_SWIPE_DISTANCE || Math.abs(dy) > MIN_SWIPE_DISTANCE) {
-                            if (dx > 0 && Math.abs(dx) > Math.abs(dy)) {
+                            if (dx > 0 && Math.abs(dy) < MIN_SWIPE_DISTANCE) {
                                 int editPriceInt = Integer.parseInt(String.valueOf(editPrice.getText()));
                                 editPriceInt += 1;
                                 editPrice.setText(String.valueOf(editPriceInt));
                             }
-                            else if (dx < 0 && Math.abs(dx) > Math.abs(dy)) {
+                            else if (dx < 0 && Math.abs(dy) < MIN_SWIPE_DISTANCE) {
                                 add();
                             }
-                            else if (dy > 0 && Math.abs(dy) > Math.abs(dx)) {
+                            else if (dy > 0 && Math.abs(dx) < MIN_SWIPE_DISTANCE) {
                                 load();
                             }
-                            else if (dy < 0 && Math.abs(dy) > Math.abs(dx)) {
+                            else if (dy < 0 && Math.abs(dx) < MIN_SWIPE_DISTANCE) {
                                 clear();
+                            }
+                            else if (dx < 0 && dy < 0 && Math.abs(dx) > MIN_SWIPE_DISTANCE && Math.abs(dy) > MIN_SWIPE_DISTANCE) {
+                                int editPriceInt = Integer.parseInt(String.valueOf(editPrice.getText()));
+                                editPriceInt *= 2;
+                                 editPrice.setText(String.valueOf(editPriceInt));
+                            }
+                            else if (dx < 0 && dy > 0 && Math.abs(dx) > MIN_SWIPE_DISTANCE && Math.abs(dy) > MIN_SWIPE_DISTANCE) {
+                                String editTitleString = String.valueOf(editTitle.getText());
+                                editTitle.setText(editTitleString.toUpperCase());
                             }
                         }
                         break;
