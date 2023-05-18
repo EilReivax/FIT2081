@@ -284,6 +284,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             }
             return true;
         }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            load();
+        }
     }
 
     public void add() {
