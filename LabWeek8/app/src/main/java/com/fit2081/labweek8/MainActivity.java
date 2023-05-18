@@ -1,27 +1,14 @@
 package com.fit2081.labweek8;
 
-import static android.text.Selection.moveLeft;
-import static android.text.Selection.moveRight;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -29,20 +16,25 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.view.GestureDetectorCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.fit2081.labweek8.provider.Book;
 import com.fit2081.labweek8.provider.BookViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
     EditText editTitle, editIsbn, editAuthor, editDescription, editPrice;
     public static final String TAG = "WEEK_10_TAG";
@@ -52,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String DESCRIPTION_KEY = "DESCRIPTION_KEY";
     public static final String PRICE_KEY = "PRICE_KEY";
     public static final int MIN_SWIPE_DISTANCE = 300;
+    public static final int MIN_SWIPE_VELOCITY = 1000;
     private float dx, dy, x1, x2, y1, y2;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -61,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private BookViewModel bookViewModel;
     DatabaseReference cloudDatabase;
     DatabaseReference bookTable;
+    private GestureDetectorCompat gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         bookTable = cloudDatabase.child("books");
 
         // Week 10
+        /*
         View view = findViewById(R.id.touchLayout);
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -153,6 +148,12 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        */
+
+        // Week 11
+        gestureDetector = new GestureDetectorCompat(this, new MyGestureListener());
+        View view = findViewById(R.id.touchLayout);
+        view.setOnTouchListener(this);
 
         load();
     }
@@ -195,6 +196,12 @@ public class MainActivity extends AppCompatActivity {
             load();
         }
 
+        return true;
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        gestureDetector.onTouchEvent(motionEvent);
         return true;
     }
 
@@ -244,6 +251,38 @@ public class MainActivity extends AppCompatActivity {
             editAuthor.setText(author);
             editDescription.setText(description);
             editPrice.setText(price);
+        }
+    }
+
+    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            String randomString = RandomString.generateNewRandomString(10);
+            editIsbn.setText(randomString);
+            return true;
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            clear();
+            return true;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            int editPriceInt = Integer.parseInt(String.valueOf(editPrice.getText()));
+            editPriceInt += distanceX;
+            editPrice.setText(String.valueOf(editPriceInt));
+
+            return true;
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            if (Math.abs(velocityX) > MIN_SWIPE_VELOCITY || Math.abs(velocityY) > MIN_SWIPE_VELOCITY) {
+                moveTaskToBack(true);
+            }
+            return true;
         }
     }
 
