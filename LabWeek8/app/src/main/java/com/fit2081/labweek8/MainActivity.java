@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         // Week 11
         gestureDetector = new GestureDetectorCompat(this, new MyGestureListener());
-        scaleGestureDetector = new ScaleGestureDetector(this, new MyScaleListener());
+        // scaleGestureDetector = new ScaleGestureDetector(this, new MyScaleListener());
         View view = findViewById(R.id.touchLayout);
         view.setOnTouchListener(this);
 
@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public boolean onTouch(View view, MotionEvent motionEvent) {
         gestureDetector.onTouchEvent(motionEvent);
         scaleGestureDetector.onTouchEvent(motionEvent);
-        return true;
+        return false;
     }
 
     class MyNavigationListener implements NavigationView.OnNavigationItemSelectedListener {
@@ -296,6 +296,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
     }
 
+    /*
     private class MyScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
@@ -311,6 +312,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             }
         }
     }
+    */
 
     public void add() {
         String title = String.valueOf(editTitle.getText());
