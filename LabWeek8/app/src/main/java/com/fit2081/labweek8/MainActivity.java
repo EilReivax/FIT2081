@@ -300,11 +300,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
             count++;
-            if (count == 5) {
+
+            return true;
+        }
+        @Override
+        public void onScaleEnd(ScaleGestureDetector detector) {
+            if (count >= 5) {
                 add();
                 count = 0;
             }
-            return true;
         }
     }
 
