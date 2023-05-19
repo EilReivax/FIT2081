@@ -12,6 +12,7 @@ import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public static final int MIN_SWIPE_DISTANCE = 300;
     public static final int MIN_SWIPE_VELOCITY = 1000;
     private float dx, dy, x1, x2, y1, y2;
+    public int count = 0;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     DatabaseReference cloudDatabase;
     DatabaseReference bookTable;
     private GestureDetectorCompat gestureDetector;
+    private ScaleGestureDetector scaleGestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         // Week 11
         gestureDetector = new GestureDetectorCompat(this, new MyGestureListener());
+        scaleGestureDetector = new ScaleGestureDetector(this, new MyScaleListener());
         View view = findViewById(R.id.touchLayout);
         view.setOnTouchListener(this);
 
@@ -202,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         gestureDetector.onTouchEvent(motionEvent);
+        scaleGestureDetector.onTouchEvent(motionEvent);
         return true;
     }
 
@@ -254,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
     }
 
-    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+    private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
             String randomString = RandomString.generateNewRandomString(10);
@@ -288,6 +293,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         @Override
         public void onLongPress(MotionEvent e) {
             load();
+        }
+    }
+
+    private class MyScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            count++;
+            if (count == 5) {
+                add();
+                count = 0;
+            }
+            return true;
         }
     }
 
